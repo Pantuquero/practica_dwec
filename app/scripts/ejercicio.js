@@ -152,7 +152,7 @@
                /*en principio el type para api restful sería delete pero no lo recogeríamos en $_REQUEST, así que queda como POST*/
                type: 'POST',
                dataType: 'json',
-               url: 'php/borrar_doctor.php',
+               url: '../php/borrar_doctor.php',
                //url: 'http://localhost/practica-ajax-datatables/app/php/borrar_doctor.php',
                //url: 'http://localhost/html/practica-ajax-datatables/app/php/borrar_doctor.php',
                
