@@ -174,6 +174,7 @@
                    //si queremos hacer algo al terminar la petición ajax
                }
            });
+        
           alert ('Se ha borrado al doctor '+nombredoctor+' con exito.');
           }
           else
