@@ -270,9 +270,17 @@
        // Este script envia los datos al php para crear el doctor
        $('#enviarDoc').click(function(e) {
            e.preventDefault();
+           
+           //Si el formulario está correctamente validado continuo, si no salgo de la función
+           if(!$("#formCrear").valid()){
+               alert("Por favor rellene los campos correctamente. Nombre: Obligatorio y sin números; Número de colegiado: Debe ser numérico; Debe seleccionar al menos una clínica.");
+               return;
+           }
+           
            var nombreNuevo = $('#nombreNuevo').val();
            var numcolegiadoNuevo = $('#numcolegiadoNuevo').val();
            var clinicasNuevas = $('#clinicasNuevas').val();
+           
            var confirmacion = confirm('Se va a crear al doctor '+nombreNuevo+' ¿Estas seguro?')
            if (confirmacion == true)
            {
@@ -311,6 +319,38 @@
           }  
           $('#tabla').fadeIn(100);
           $('#formularioCrear').fadeOut(100);
+       });
+       
+       jQuery.validator.setDefaults({
+           debug: true,
+           success: "valid"
+       });
+
+       $("#formCrear").validate({
+           rules: {
+               nombreNuevo: {
+                   required: true,
+                   lettersonly: true
+               },
+               numcolegiadoNuevo: {
+                   digits: true
+               },
+               clinicasNuevas: {
+                   required: true
+               }
+           },
+           messages: {
+               nombreNuevo: {
+                   required: "Este campo es obligatorio.",
+                   lettersonly: "El nombre debe contener solo letras"
+               },
+               numcolegiadoNuevo:{
+                   digits: "Debe introducir solo dígitos."
+               },
+               clinicasNuevas: {
+                   required: "Debe seleccionar al menos una clínica."
+               }
+           }
        });
 
    });
