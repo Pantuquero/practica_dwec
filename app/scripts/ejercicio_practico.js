@@ -162,7 +162,10 @@
                },
                error: function(xhr, status, error) {
                    //mostraríamos alguna ventana de alerta con el error
-                   alert("Ha entrado en error");
+                   var $mitabla = $("#miTabla").dataTable({
+                       bRetrieve: true
+                   });
+                   $mitabla.fnDraw();
                },
                success: function(data) {
                    var $mitabla = $("#miTabla").dataTable({
@@ -174,11 +177,12 @@
                    //si queremos hacer algo al terminar la petición ajax
                }
            });
-          alert ('Se ha borrado al doctor '+nombredoctor+' con exito.');
+          //alert ('Se ha borrado al doctor '+nombredoctor+' con exito.');
+               $.growl.notice({title: "!Atención!", message: "Doctor borrado con éxito" });
           }
           else
           {
-            alert('No se ha borrado al doctor');
+            $.growl.notice({title: "!Atención!", message: "El doctor no se ha borrado" });
           }
        });
        $('#enviar').click(function(e) {
@@ -208,7 +212,12 @@
                 },
                 error: function(xhr, status, error) {
                    //mostraríamos alguna ventana de alerta con el error
-                   alert("Ha entrado en error");
+                   //alert("Ha entrado en error");
+                    //$.growl.error({title:"Error", message: error });
+                    var $mitabla = $("#miTabla").dataTable({
+                       bRetrieve: true
+                   });
+                   $mitabla.fnDraw();
                 },
                 success: function(data) {
                   var $mitabla =  $("#miTabla").dataTable( { bRetrieve : true } );
@@ -218,11 +227,13 @@
                    //si queremos hacer algo al terminar la petición ajax
                 }
                 });
-              alert('Se ha editado al doctor '+nombre+' con exito');
+              //alert('Se ha editado al doctor '+nombre+' con exito');
+               $.growl.notice({title:"¡Atención!", message: "Doctor modificado con éxito" });
             }
             else
             {
-              alert('Se ha cancelado la edicion');
+              //alert('Se ha cancelado la edicion');
+                $.growl.notice({title:"¡Atención!", message: "Modificación cancelada" });
             }
            $('#tabla').fadeIn(100);
            $('#formulario').fadeOut(100);      
@@ -269,7 +280,7 @@
                type: 'POST',
                dataType: 'json',
                url: 'php/crear_doctor.php',
-               //url: 'http://localhost/practica-ajax-datatables/app/php/crear_doctor.php',
+               //url: 'http://localhost/practica_dwec/app/php/crear_doctor.php',
                //url: 'http://localhost/html/practica-ajax-datatables/app/php/crear_doctor.php',
                data: {
                    nombreNuevo: nombreNuevo,
@@ -277,12 +288,7 @@
                    clinicasNuevas: clinicasNuevas
                },
                error: function(xhr, status, error) {
-                   $.growl({
-                       icon: "glyphicon glyphicon-remove",
-                       message: "Error al añadir el doctor!"
-                   }, {
-                       type: "danger"
-                   });
+                   //$.growl.error({title:"Error", message: error });
                },
                success: function(data) {
                    var $mitabla = $("#miTabla").dataTable({
@@ -295,10 +301,14 @@
                }
 
            });
-           alert ('Se ha creado el doctor '+nombreNuevo+' con exito.');
+               $.growl.notice({title:"¡Atención!", message: "Doctor creado con éxito" });
+           //alert ('Se ha creado el doctor '+nombreNuevo+' con exito.');
           }
           else
-          {alert ('No se ha agregado al doctor.');}  
+          {
+              $.growl.notice({title:"¡Atención!", message: "Creación de doctor cancelada" });
+              //alert ('No se ha agregado al doctor.');
+          }  
           $('#tabla').fadeIn(100);
           $('#formularioCrear').fadeOut(100);
        });

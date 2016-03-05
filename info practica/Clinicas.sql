@@ -307,7 +307,7 @@ INSERT INTO `clinica_doctor` (`id_doctor`, `id_clinica`, `numdoctor`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `doctores` (
-  `id_doctor` int(4) NOT NULL,
+  `id_doctor` int(4) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) NOT NULL,
   `numcolegiado` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_doctor`)

@@ -2,7 +2,6 @@
     header('Access-Control-Allow-Origin: *');
     include("mysql.php" );
 
-
     function fatal_error($sErrorMessage = '') {
         header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error');
         die($sErrorMessage);
