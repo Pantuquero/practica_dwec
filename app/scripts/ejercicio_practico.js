@@ -3,9 +3,7 @@
        var miTabla = $('#miTabla').DataTable({
            'processing': true,
            'serverSide': true,
-           //'ajax': 'http://localhost/practica-ajax-datatables/app/php/cargar_doctores.php',
            'ajax': 'php/cargar_doctores.php',
-           //'ajax': 'http://localhost/html/practica-ajax-datatables/app/php/cargar_doctores.php',
            'language': {
                'sProcessing': 'Procesando...',
                'sLengthMenu': 'Mostrar _MENU_ registros',
@@ -42,18 +40,12 @@
                'data': 'nombreclinicas'
            }, {
                'data': 'nombre',
-               /*añadimos las clases editarbtn y borrarbtn para procesar los eventos click de los botones. No lo hacemos mediante id ya que habrá más de un
-               botón de edición o borrado*/
                'render': function(data) {
-                   //return '<a class="btn btn-primary editarbtn" href=http://localhost/php/modificar_doctores.php?id_doctor=' + data + '>Editar</a>';
-                   //return '<a class="btn btn-primary editarbtn" href=http://localhost/html/php/modificar_doctores.php?id_doctor=' + data + '>Editar</a>';
                    return '<a class="btn btn-primary editarbtn" href=http://www.aalvarez.infenlaces.com/Juanda/datatables2/php/modificar_doctores.php?id_doctor=' + data + '>Editar</a>';
                }
            }, {
                'data': 'nombre',
                'render': function(data) {
-                   //return '<a class="btn btn-warning borrarbtn" href=http://localhost/php/borrar_doctor.php?id_doctor=' + data + '>Borrar</a>'
-                   //return '<a class="btn btn-warning borrarbtn" href=http://localhost/html/php/borrar_doctor.php?id_doctor=' + data + '>Borrar</a>'
                    return '<a class="btn btn-warning borrarbtn" href=http://www.aalvarez.infenlaces.com/Juanda/datatables2/php/borrar_doctor.php?id_doctor=' + data + '>Borrar</a>'
                }
            }],
@@ -68,21 +60,12 @@
                 "orderable": false
            }],
        });
-        /* Usamos esto para cargar las clinicas de los doctores */
        function cargarClinicas() {
            $.ajax({
                type: 'POST',
                dataType: 'json',
                url: 'php/listar_clinica.php',
-               //url: 'http://localhost/practica-ajax-datatables/app/php/listar_clinica.php',
-               //url: 'http://localhost/html/practica-ajax-datatables/app/php/listar_clinica.php',
-               
-               //estos son los datos que queremos actualizar, en json:
-               // {parametro1: valor1, parametro2, valor2, ….}
-               //data: { id_doctor: idDoctor, nombre: nombre, ….,  id_clinica: idClinica },
-               error: function(xhr, status, error) {
-                   //mostraríamos alguna ventana de alerta con el error
-               },
+               error: function(xhr, status, error) {},
                success: function(data) {
                    $('#id').empty();
                    $.each(data, function() {
@@ -91,13 +74,9 @@
                        );
                    });
                },
-               complete: {
-                   //si queremos hacer algo al terminar la petición ajax
-               }
+               complete: {}
            });
        };
-       /*Creamos la función que muestre el formulario cuando hagamos click*/
-       /*ojo, es necesario hacerlo con el método ON. Tanto por rendimiento como porque puede haber elementos (botones) que todavía no existan en el document.ready*/
        $('#miTabla').on('click', '.editarbtn', function(e) {
            
            e.preventDefault();
@@ -111,29 +90,19 @@
            $('#nombre').val(aData.nombre);
            $('#numcolegiado').val(aData.numcolegiado);
            $('#idClinicas').val(aData.idClinicas);
-           //$('#clinicas').val(aData.nombreClinica);
-          // var prueba=$('#idClinica').val(aData.idDoctor);
-           
-           
-           
-          // alert(aData.idClinica);
-          //selecciono las que estaban
-          
 
           var str =  aData.idClinicas;
           var res = str.split(",");
 
-          //cargo el select con las que ya estaban
           $('#clinicas').val(res);
 
        });
        cargarClinicas();
        $('#creaDoc').click(function(e) {
            e.preventDefault();
-           //oculto tabla muestro form
+           
            $('#tabla').fadeOut(100);
            $('#formularioCrear').fadeIn(100);
-           // limpio la tabla por si ya se ha creado algun doctor antes
            $('#nombreNuevo').val(null);
            $('#numcolegiadoNuevo').val(null);
            $('#clinicasNuevas').val(null);
@@ -149,35 +118,29 @@
            if (confirmacion == true)
            {
            $.ajax({
-               /*en principio el type para api restful sería delete pero no lo recogeríamos en $_REQUEST, así que queda como POST*/
                type: 'POST',
                dataType: 'json',
                url: 'php/borrar_doctor.php',
-               //url: 'http://localhost/practica-ajax-datatables/app/php/borrar_doctor.php',
-               //url: 'http://localhost/html/practica-ajax-datatables/app/php/borrar_doctor.php',
-               
-               //estos son los datos que queremos actualizar, en json:
                data: {
                    id_doctor: idDoctor
                },
                error: function(xhr, status, error) {
-                   //mostraríamos alguna ventana de alerta con el error
                    var $mitabla = $("#miTabla").dataTable({
                        bRetrieve: true
                    });
+                   
                    $mitabla.fnDraw();
                },
                success: function(data) {
                    var $mitabla = $("#miTabla").dataTable({
                        bRetrieve: true
                    });
+                   
                    $mitabla.fnDraw();
                },
                complete: {
-                   //si queremos hacer algo al terminar la petición ajax
                }
            });
-          //alert ('Se ha borrado al doctor '+nombredoctor+' con exito.');
                $.growl.notice({title: "!Atención!", message: "Doctor borrado con éxito" });
           }
           else
@@ -202,8 +165,6 @@
                 type: 'POST',
                 dataType: 'json',
                 url: 'php/modificar_doctores.php',
-                //url: 'http://localhost/practica-ajax-datatables/app/php/modificar_doctores.php',
-                //url: 'http://localhost/html/practica-ajax-datatables/app/php/modificar_doctores.php',
                 data: {
                   idDoctor: idDoctor,
                   nombre: nombre,
@@ -211,12 +172,10 @@
                   id_clinica:id_clinica                
                 },
                 error: function(xhr, status, error) {
-                   //mostraríamos alguna ventana de alerta con el error
-                   //alert("Ha entrado en error");
-                    //$.growl.error({title:"Error", message: error });
                     var $mitabla = $("#miTabla").dataTable({
                        bRetrieve: true
                    });
+                    
                    $mitabla.fnDraw();
                 },
                 success: function(data) {
@@ -224,29 +183,22 @@
                   $mitabla.fnDraw();           
                 },
                 complete: {
-                   //si queremos hacer algo al terminar la petición ajax
                 }
                 });
-              //alert('Se ha editado al doctor '+nombre+' con exito');
                $.growl.notice({title:"¡Atención!", message: "Doctor modificado con éxito" });
             }
             else
             {
-              //alert('Se ha cancelado la edicion');
                 $.growl.notice({title:"¡Atención!", message: "Modificación cancelada" });
             }
            $('#tabla').fadeIn(100);
            $('#formulario').fadeOut(100);      
        });
-       
-       //  Este es el script para cargar las clinicas en el formulario
-       function cargarClinicaCrear() {
+              function cargarClinicaCrear() {
            $.ajax({
                type: 'POST',
                dataType: 'json',
                url: 'php/listar_clinica.php',
-               //url: 'http://localhost/practica-ajax-datatables/app/php/listar_clinica.php',
-               //url: 'http://localhost/html/practica-ajax-datatables/app/php/listar_clinica.php',
 
                error: function(xhr, status, error) {
 
@@ -267,11 +219,9 @@
            });
        };
        cargarClinicaCrear();
-       // Este script envia los datos al php para crear el doctor
        $('#enviarDoc').click(function(e) {
            e.preventDefault();
            
-           //Si el formulario está correctamente validado continuo, si no salgo de la función
            if(!$("#formCrear").valid()){
                alert("Por favor rellene los campos correctamente. Nombre: Obligatorio y sin números; Número de colegiado: Debe ser numérico; Debe seleccionar al menos una clínica.");
                return;
@@ -288,15 +238,12 @@
                type: 'POST',
                dataType: 'json',
                url: 'php/crear_doctor.php',
-               //url: 'http://localhost/practica_dwec/app/php/crear_doctor.php',
-               //url: 'http://localhost/html/practica-ajax-datatables/app/php/crear_doctor.php',
                data: {
                    nombreNuevo: nombreNuevo,
                    numcolegiadoNuevo: numcolegiadoNuevo,
                    clinicasNuevas: clinicasNuevas
                },
                error: function(xhr, status, error) {
-                   //$.growl.error({title:"Error", message: error });
                },
                success: function(data) {
                    var $mitabla = $("#miTabla").dataTable({
@@ -310,12 +257,10 @@
 
            });
                $.growl.notice({title:"¡Atención!", message: "Doctor creado con éxito" });
-           //alert ('Se ha creado el doctor '+nombreNuevo+' con exito.');
           }
           else
           {
               $.growl.notice({title:"¡Atención!", message: "Creación de doctor cancelada" });
-              //alert ('No se ha agregado al doctor.');
           }  
           $('#tabla').fadeIn(100);
           $('#formularioCrear').fadeOut(100);
@@ -354,9 +299,3 @@
        });
 
    });
-
-   /* En http://www.datatables.net/reference/option/ hemos encontrado la ayuda necesaria
-   para utilizar el API de datatables para el render de los botones */
-   /* Para renderizar los botones según bootstrap, la url es esta: 
-   http://getbootstrap.com/css/#buttons
-   */
