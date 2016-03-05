@@ -8,4 +8,4 @@ Para ejecutar la práctica simplemente realiza estos sencillos pasos:
 
 ¡Listo!
 
-Si por algún casual no funciona, emplaza la carpeta de "practica_dwec"
+Si por algún casual no funciona, emplaza la carpeta de "practica_dwec" en "C:\xampp\htdocs" y ejecútala desde localhost
